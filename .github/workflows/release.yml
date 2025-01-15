@@ -33,7 +33,9 @@ jobs:
           dart run wuwa --build dic
 
       - name: Archive Dictionary
-        run: zip -r release/dictionary.zip build
+        run: |
+          mkdir -p release
+          zip -r release/dictionary.zip build
 
       - name: Upload Asset
         env:
