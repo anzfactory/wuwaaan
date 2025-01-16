@@ -26,6 +26,7 @@ class Assets {
 
 class Output {
   static File get googleDic => File('build/dictionary.txt');
+  static String get pagesRootPath => 'dist';
 }
 
 void main(List<String> arguments) {
@@ -72,14 +73,21 @@ void _buildGoogleDictionary() async {
 void _buildPages() async {
   final assetFile = Assets.charactersFile;
   final list = await assetFile.readAsLines();
-  final outputFile = File('docs/output.json');
-  outputFile.createSync(recursive: true);
-  final sink = outputFile.openWrite();
-  final List<Character> fooList = [];
+  final List<Character> characters = [];
   for (final line in list) {
-    fooList.add(Character.fromString(line));
+    final character = Character.fromString(line);
+    final characterFile = File('${Output.pagesRootPath}/characters/${character.id}.json');
+    await characterFile.create(recursive: true);
+    final sink = characterFile.openWrite();
+    sink.write(jsonEncode(character));
+    await sink.flush();
+    await sink.close();
+    characters.add(Character.fromString(line));
   }
-  sink.write(jsonEncode(fooList));
+  final charactersFile = File('${Output.pagesRootPath}/characters.json');
+  charactersFile.createSync(recursive: true);
+  final sink = charactersFile.openWrite();
+  sink.write(jsonEncode(characters));
   await sink.flush();
   await sink.close();
 }
