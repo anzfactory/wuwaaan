@@ -73,21 +73,18 @@ void _buildGoogleDictionary() async {
 void _buildPages() async {
   final assetFile = Assets.charactersFile;
   final list = await assetFile.readAsLines();
-  final List<Character> characters = [];
-  for (final line in list) {
-    final character = Character.fromString(line);
-    final characterFile = File('${Output.pagesRootPath}/characters/${character.id}.json');
-    await characterFile.create(recursive: true);
-    final sink = characterFile.openWrite();
-    sink.write(jsonEncode(character));
+  final List<Character> characters = list.map((line) => Character.fromString(line)).toList();
+  final outputs = <String, Object>{};
+  outputs.addEntries(characters.map((character) => MapEntry('${Output.pagesRootPath}/characters/${character.id}.json', character)));
+  outputs['${Output.pagesRootPath}/characters.json'] = characters;
+  outputs.addEntries(characters.map((character) => MapEntry('${Output.pagesRootPath}/attribute/characters/${character.id}.json', character)));
+  
+  for (final key in outputs.keys) {
+    final charactersFile = File(key);
+    charactersFile.createSync(recursive: true);
+    final sink = charactersFile.openWrite();
+    sink.write(jsonEncode(outputs[key]));
     await sink.flush();
     await sink.close();
-    characters.add(Character.fromString(line));
   }
-  final charactersFile = File('${Output.pagesRootPath}/characters.json');
-  charactersFile.createSync(recursive: true);
-  final sink = charactersFile.openWrite();
-  sink.write(jsonEncode(characters));
-  await sink.flush();
-  await sink.close();
 }
