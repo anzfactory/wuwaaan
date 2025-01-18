@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:args/args.dart';
+
+import 'extensions/iterable_extension.dart';
 import 'models/character.dart';
 
 const String version = '0.0.1';
@@ -73,12 +76,14 @@ void _buildGoogleDictionary() async {
 void _buildPages() async {
   final assetFile = Assets.charactersFile;
   final list = await assetFile.readAsLines();
-  final List<Character> characters = list.map((line) => Character.fromString(line)).toList();
+  final characters = list.map((line) => Character.fromString(line)).toList()..sort((lhs, rhs) => lhs.id.compareTo(rhs.id));
   final outputs = <String, Object>{};
   outputs.addEntries(characters.map((character) => MapEntry('${Output.pagesRootPath}/characters/${character.id}.json', character)));
   outputs['${Output.pagesRootPath}/characters.json'] = characters;
-  outputs.addEntries(characters.map((character) => MapEntry('${Output.pagesRootPath}/attribute/characters/${character.id}.json', character)));
-  
+  final charactersByAttribute = characters.groupBy((character) => character.attribute);
+  charactersByAttribute.forEach((key, list) { if (key.isNotEmpty) outputs['${Output.pagesRootPath}/attributes/$key/characters.json'] = list; });
+  outputs['${Output.pagesRootPath}/attributes.json'] = charactersByAttribute.keys.where((key) => key.isNotEmpty).toList()..sort();
+
   for (final key in outputs.keys) {
     final charactersFile = File(key);
     charactersFile.createSync(recursive: true);
