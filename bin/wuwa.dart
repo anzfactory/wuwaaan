@@ -5,6 +5,7 @@ import 'package:args/args.dart';
 
 import 'extensions/iterable_extension.dart';
 import 'models/character.dart';
+import 'models/location.dart';
 import 'models/npc.dart';
 
 const String version = '0.0.1';
@@ -26,6 +27,7 @@ void printUsage(ArgParser argParser) {
 class Assets {
   static File get charactersFile => File('assets/characters.txt');
   static File get npcsFile => File('assets/npcs.txt');
+  static File get locationsFile => File('assets/locations.txt');
 }
 
 class Output {
@@ -60,6 +62,14 @@ class Output {
       return '${Output.pagesRootPath}/npcs/$id.$ext';
     }
   }
+
+  static String pathLocations({String? id}) {
+    if (id == null) {
+      return '${Output.pagesRootPath}/locations.$ext';
+    } else {
+      return '${Output.pagesRootPath}/locations/$id.$ext';
+    }
+  }
 }
 
 void main(List<String> arguments) {
@@ -91,10 +101,12 @@ void main(List<String> arguments) {
 
 void _buildGoogleDictionary() async {
   final characterList = await Assets.charactersFile.readAsLines();
-  final npcsList = await Assets.npcsFile.readAsLines();
+  final npcList = await Assets.npcsFile.readAsLines();
+  final locationList = await Assets.locationsFile.readAsLines();
   final list = [
     ...characterList.map((line) => Character.fromString(line)),
-    ...npcsList.map((line) => NPC.fromString(line))
+    ...npcList.map((line) => NPC.fromString(line)),
+    ...locationList.map((line) => Location.fromString(line))
   ];
   
   final outputFile = Output.googleDic;
@@ -128,6 +140,12 @@ void _buildPages() async {
   final List<NPC> npcs = npcLines.map((line) => NPC.fromString(line)).toList()..sort((lhs, rhs) => lhs.id.compareTo(rhs.id)); 
   outputs.addEntries(npcs.map((npc) => MapEntry(Output.pathNPCs(id: npc.id), npc)));
   outputs[Output.pathNPCs()] = npcs;
+
+  // Locations
+  final locationLines = await Assets.locationsFile.readAsLines();
+  final List<Location> locations = locationLines.map((line) => Location.fromString(line)).toList()..sort((lhs, rhs) => lhs.id.compareTo(rhs.id)); 
+  outputs.addEntries(locations.map((location) => MapEntry(Output.pathLocations(id: location.id), location)));
+  outputs[Output.pathLocations()] = locations;
 
   for (final key in outputs.keys) {
     final charactersFile = File(key);

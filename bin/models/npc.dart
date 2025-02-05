@@ -1,15 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'model.dart';
+import 'word_model.dart';
 part 'npc.g.dart';
 
 @JsonSerializable()
-class NPC extends Model {
+class NPC extends WordModel {
   final String id;
-  final String name;
-  final String yomi;
-
-  NPC(this.id, this.name, this.yomi);
+  NPC(this.id, String name, String yomi): super(name, yomi, '人名');
 
   factory NPC.fromString(String line) {
     final components = line.split(',');
@@ -21,11 +18,5 @@ class NPC extends Model {
   }
 
   factory NPC.fromJson(Map<String, dynamic> json) => _$NPCFromJson(json);
-
-  
   Map<String, dynamic> toJson() => _$NPCToJson(this);
-  @override
-  String toTextForGoogleDic() {
-    return '$yomi\t$name\t人名';
-  }
 }

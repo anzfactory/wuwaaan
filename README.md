@@ -13,7 +13,11 @@
 ### API
 
 詳細はこちらで。  
-https://anzfactory.github.io/wuwaaan/ 
+https://anzfactory.github.io/wuwaaan/  
+
+テストで叩いてみる分にはこれを利用してみてもいいですけれど、  
+ちゃんと使うときは Fork してから自分でデプロイしたものを使うことをおすすめ。  
+（アクセスにLimitあるので）
 
 ### 
 

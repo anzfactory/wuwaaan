@@ -1,13 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'model.dart';
+import 'word_model.dart';
 part 'character.g.dart';
 
 @JsonSerializable()
-class Character extends Model {
+class Character extends WordModel {
   final String id;
-  final String name;
-  final String yomi;
   final int rarity;
   final String attribute;
   final String weapon;
@@ -15,13 +13,13 @@ class Character extends Model {
   
   Character(
     this.id, 
-    this.name, 
-    this.yomi, 
+    String name, 
+    String yomi, 
     this.rarity, 
     this.attribute, 
     this.weapon, 
     this.version
-  );
+  ): super(name, yomi, '人名');
   
   factory Character.fromString(String line) {
     final components = line.split(',');
@@ -40,9 +38,4 @@ class Character extends Model {
 
   
   Map<String, dynamic> toJson() => _$CharacterToJson(this);
-  
-  @override
-  String toTextForGoogleDic() {
-    return '$yomi\t$name\t人名';
-  }
 }
