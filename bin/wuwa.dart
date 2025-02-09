@@ -5,6 +5,7 @@ import 'package:args/args.dart';
 
 import 'extensions/iterable_extension.dart';
 import 'models/character.dart';
+import 'models/entity_name.dart';
 import 'models/location.dart';
 import 'models/npc.dart';
 
@@ -28,6 +29,7 @@ class Assets {
   static File get charactersFile => File('assets/characters.txt');
   static File get npcsFile => File('assets/npcs.txt');
   static File get locationsFile => File('assets/locations.txt');
+  static File get entityNamesFile => File('assets/entity_names.txt');
 }
 
 class Output {
@@ -103,10 +105,12 @@ void _buildGoogleDictionary() async {
   final characterList = await Assets.charactersFile.readAsLines();
   final npcList = await Assets.npcsFile.readAsLines();
   final locationList = await Assets.locationsFile.readAsLines();
+  final entityNameList = await Assets.entityNamesFile.readAsLines();
   final list = [
     ...characterList.map((line) => Character.fromString(line)),
     ...npcList.map((line) => NPC.fromString(line)),
-    ...locationList.map((line) => Location.fromString(line))
+    ...locationList.map((line) => Location.fromString(line)),
+    ...entityNameList.map((line) => EntityName.fromString(line))
   ];
   
   final outputFile = Output.googleDic;
@@ -122,8 +126,22 @@ void _buildGoogleDictionary() async {
 
 void _buildPages() async {
   final outputs = <String, Object>{};
+  outputs.addAll(await _buildCharactersJson());
+  outputs.addAll(await _buildNPCsJson());
+  outputs.addAll(await _buildLocationsJson());
 
-  // Characters
+  for (final key in outputs.keys) {
+    final charactersFile = File(key);
+    charactersFile.createSync(recursive: true);
+    final sink = charactersFile.openWrite();
+    sink.write(jsonEncode(outputs[key]));
+    await sink.flush();
+    await sink.close();
+  }
+}
+
+Future<Map<String, Object>> _buildCharactersJson() async {
+  final outputs = <String, Object>{};
   final list = await Assets.charactersFile.readAsLines();
   final characters = list.map((line) => Character.fromString(line)).toList()..sort((lhs, rhs) => lhs.id.compareTo(rhs.id));
   outputs.addEntries(characters.map((character) => MapEntry(Output.pathCharacters(id: character.id), character)));
@@ -134,25 +152,23 @@ void _buildPages() async {
   final charactersByWeapon = characters.groupBy((character) => character.weapon);
   charactersByWeapon.forEach((key, list) { if (key.isNotEmpty) outputs[Output.pathCharactersByWeapon(weapon: key)] = list; });
   outputs[Output.pathCharactersByWeapon()] = charactersByAttribute.keys.where((key) => key.isNotEmpty).toList()..sort();
+  return outputs;
+}
 
-  // NPCs
+Future<Map<String, Object>> _buildNPCsJson() async {
+  final outputs = <String, Object>{};
   final npcLines = await Assets.npcsFile.readAsLines();
   final List<NPC> npcs = npcLines.map((line) => NPC.fromString(line)).toList()..sort((lhs, rhs) => lhs.id.compareTo(rhs.id)); 
   outputs.addEntries(npcs.map((npc) => MapEntry(Output.pathNPCs(id: npc.id), npc)));
   outputs[Output.pathNPCs()] = npcs;
+  return outputs;
+}
 
-  // Locations
+Future<Map<String, Object>> _buildLocationsJson() async {
+  final outputs = <String, Object>{};
   final locationLines = await Assets.locationsFile.readAsLines();
   final List<Location> locations = locationLines.map((line) => Location.fromString(line)).toList()..sort((lhs, rhs) => lhs.id.compareTo(rhs.id)); 
   outputs.addEntries(locations.map((location) => MapEntry(Output.pathLocations(id: location.id), location)));
   outputs[Output.pathLocations()] = locations;
-
-  for (final key in outputs.keys) {
-    final charactersFile = File(key);
-    charactersFile.createSync(recursive: true);
-    final sink = charactersFile.openWrite();
-    sink.write(jsonEncode(outputs[key]));
-    await sink.flush();
-    await sink.close();
-  }
+  return outputs;
 }
