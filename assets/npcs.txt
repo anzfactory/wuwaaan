@@ -5,3 +5,7 @@ rosemary,ローズマリー,ろーずまりー
 ying,盈,えい
 xinyi,辛夷,しんい
 geshulin,哥舒臨,かじょりん
+cristoforo,クリストフォロ,くりすとふぉろ
+scar,スカー,すかー
+imperator,インペラトル,いんぺらとる
+leviathan,レビヤタン,れびやたん
