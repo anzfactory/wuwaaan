@@ -36,5 +36,5 @@ phrolova,フローヴァ,ふろーゔぁ,5,havoc,rectifier,2.5
 augusta,オーガスタ,おーがすた,0,electro,broadblade,x.x
 chisa,千咲,ちさ,0,,,x.x
 galbrena,ガルブレーナ,がるぶれーな,0,,,x.x
-luno,ユーノ,ゆーの,0,,,x.x
+iuno,ユーノ,ゆーの,0,,,x.x
 qiuyuan,仇遠,きゅうえん,0,,,x.x
