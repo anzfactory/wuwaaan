@@ -59,22 +59,26 @@ class Output {
 
 /// A builder class to handle dictionary and pages generation.
 class Builder {
+  /// Reads lines from an asset file, throwing a specific error if it doesn't exist.
+  Future<List<String>> _readAssetLines(File file) async {
+    if (!await file.exists()) {
+      throw FileSystemException('Asset file not found.', file.path);
+    }
+    return file.readAsLines();
+  }
+
   /// Builds the dictionary file for Google Japanese Input.
   Future<void> buildGoogleDictionary() async {
-    final characters = (await Assets.charactersFile.readAsLines())
-        .map((line) => Character.fromString(line));
-    final npcs = (await Assets.npcsFile.readAsLines())
-        .map((line) => NPC.fromString(line));
-    final locations = (await Assets.locationsFile.readAsLines())
-        .map((line) => Location.fromString(line));
-    final entityNames = (await Assets.entityNamesFile.readAsLines())
-        .map((line) => EntityName.fromString(line));
+    final characterLines = await _readAssetLines(Assets.charactersFile);
+    final npcLines = await _readAssetLines(Assets.npcsFile);
+    final locationLines = await _readAssetLines(Assets.locationsFile);
+    final entityNameLines = await _readAssetLines(Assets.entityNamesFile);
 
     final allWords = [
-      ...characters,
-      ...npcs,
-      ...locations,
-      ...entityNames,
+      ...characterLines.map((line) => Character.fromString(line)),
+      ...npcLines.map((line) => NPC.fromString(line)),
+      ...locationLines.map((line) => Location.fromString(line)),
+      ...entityNameLines.map((line) => EntityName.fromString(line)),
     ];
 
     await _writeDictionaryFile(allWords);
@@ -110,9 +114,28 @@ class Builder {
     }
   }
 
+  /// Generic method to build JSON data for models that have an `id`.
+  Future<Map<String, Object>> _buildJsonData<T extends WordModel>({
+    required File assetFile,
+    required T Function(String) fromString,
+    required String Function({String? id}) pathBuilder,
+  }) async {
+    final outputs = <String, Object>{};
+    final lines = await _readAssetLines(assetFile);
+    // Use `dynamic` to access `id` since it's not in the base WordModel.
+    final items = lines.map(fromString).toList()
+      ..sort((a, b) => (a as dynamic).id.compareTo((b as dynamic).id));
+
+    outputs[pathBuilder()] = items;
+    for (final item in items) {
+      outputs[pathBuilder(id: (item as dynamic).id)] = item;
+    }
+    return outputs;
+  }
+
   Future<Map<String, Object>> _buildCharactersJson() async {
     final outputs = <String, Object>{};
-    final lines = await Assets.charactersFile.readAsLines();
+    final lines = await _readAssetLines(Assets.charactersFile);
     final characters = lines
         .map((line) => Character.fromString(line))
         .toList()
@@ -148,29 +171,19 @@ class Builder {
     return outputs;
   }
 
-  Future<Map<String, Object>> _buildNPCsJson() async {
-    final outputs = <String, Object>{};
-    final lines = await Assets.npcsFile.readAsLines();
-    final npcs = lines.map((line) => NPC.fromString(line)).toList()
-      ..sort((a, b) => a.id.compareTo(b.id));
-
-    outputs[Output.npcs()] = npcs;
-    for (final npc in npcs) {
-      outputs[Output.npcs(id: npc.id)] = npc;
-    }
-    return outputs;
+  Future<Map<String, Object>> _buildNPCsJson() {
+    return _buildJsonData<NPC>(
+      assetFile: Assets.npcsFile,
+      fromString: NPC.fromString,
+      pathBuilder: Output.npcs,
+    );
   }
 
-  Future<Map<String, Object>> _buildLocationsJson() async {
-    final outputs = <String, Object>{};
-    final lines = await Assets.locationsFile.readAsLines();
-    final locations = lines.map((line) => Location.fromString(line)).toList()
-      ..sort((a, b) => a.id.compareTo(b.id));
-
-    outputs[Output.locations()] = locations;
-    for (final location in locations) {
-      outputs[Output.locations(id: location.id)] = location;
-    }
-    return outputs;
+  Future<Map<String, Object>> _buildLocationsJson() {
+    return _buildJsonData<Location>(
+      assetFile: Assets.locationsFile,
+      fromString: Location.fromString,
+      pathBuilder: Output.locations,
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 
 import 'builder.dart';
@@ -44,6 +46,9 @@ Future<void> main(List<String> arguments) async {
     print(e.message);
     print('');
     printUsage(argParser);
+  } on FileSystemException catch (e) {
+    print('Error: ${e.message} (${e.path})');
+    print('Please ensure all asset files are in place.');
   } catch (e) {
     print('An unexpected error occurred: $e');
   }
