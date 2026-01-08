@@ -41,5 +41,6 @@ buling,卜霊,ぼくれい,4,electro,rectifier,2.8
 lynae,リンネー,りんねー,5,spectro,pistols,3.0
 mornye,モーニエ,もーにえ,5,fusion,broadblade,3.0
 lucilla,ルシラー,るしらー,0,,,x.x
-luuk_herssen,リューク・ヘルセン,りゅーく・へるせん,0,,,x.x
+luuk_herssen,リューク・ヘルセン,りゅーく・へるせん,5,spectro,gauntlets,x.x
 sigrika,シグリカ,しぐりか,0,,,x.x
+aemeath,エイメス,えいめす,5,fusion,sword,x.x
