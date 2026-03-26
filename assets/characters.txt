@@ -46,4 +46,3 @@ sigrika,シグリカ,しぐりか,5,aero,gauntlets,3.2
 hiyuki,緋雪,ひゆき,5,,,x.x
 denia,ダーニャ,だーにゃ,5,,,x.x
 lucilla,ルシラー,るしらー,0,,,x.x
-
