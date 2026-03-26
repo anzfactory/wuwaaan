@@ -42,5 +42,8 @@ lynae,リンネー,りんねー,5,spectro,pistols,3.0
 mornye,モーニエ,もーにえ,5,fusion,broadblade,3.0
 aemeath,エイメス,えいめす,5,fusion,sword,3.1
 luuk_herssen,リューク・ヘルセン,りゅーく・へるせん,5,spectro,gauntlets,3.1
+sigrika,シグリカ,しぐりか,5,aero,gauntlets,3.2
+hiyuki,緋雪,ひゆき,5,,,x.x
+denia,ダーニャ,だーにゃ,5,,,x.x
 lucilla,ルシラー,るしらー,0,,,x.x
-sigrika,シグリカ,しぐりか,0,,,x.x
+
