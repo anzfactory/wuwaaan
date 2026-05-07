@@ -6,7 +6,7 @@ part 'npc.g.dart';
 @JsonSerializable()
 class NPC extends WordModel {
   final String id;
-  NPC(this.id, String name, String yomi): super(name, yomi, '人名');
+  NPC(this.id, String name, String yomi): super(name, yomi, '固有名詞');
 
   factory NPC.fromString(String line) {
     final components = line.split(',');

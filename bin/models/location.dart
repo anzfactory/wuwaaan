@@ -6,7 +6,7 @@ part 'location.g.dart';
 @JsonSerializable()
 class Location extends WordModel {
   final String id;
-  Location(this.id, String name, String yomi): super(name, yomi, '地名');
+  Location(this.id, String name, String yomi): super(name, yomi, '固有名詞');
 
   factory Location.fromString(String line) {
     final components = line.split(',');

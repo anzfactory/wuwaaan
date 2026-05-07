@@ -19,7 +19,7 @@ class Character extends WordModel {
     this.attribute, 
     this.weapon, 
     this.version
-  ): super(name, yomi, '人名');
+  ): super(name, yomi, '固有名詞');
   
   factory Character.fromString(String line) {
     final components = line.split(',');
