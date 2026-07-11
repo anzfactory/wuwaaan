@@ -6,3 +6,9 @@ ragunna,ラグーナ,らぐーな
 septimont,セブンヒルズ,せぶんひるず
 lahai_roi,ラハイロイ,らはいろい
 roya_frostlands,ロイ氷原,ろいひょうげん
+ashinohara,葦ノ原,あしのはら
+mount_gjallar,マウントギャラル,まうんとぎゃらる
+upphaf_forest_ruins,始元林遺跡,しげんりんいせき
+ginnungamere,ギンヌンガミール,ぎんぬんがみーる
+xuanfang_hold,玄方地界,げんぽうちかい
+mengzhou,夢州,むしゅう

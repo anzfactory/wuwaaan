@@ -45,4 +45,12 @@ luuk_herssen,リューク・ヘルセン,りゅーく・へるせん,5,spectro,g
 sigrika,シグリカ,しぐりか,5,aero,gauntlets,3.2
 hiyuki,緋雪,ひゆき,5,glacio,sword,3.3
 denia,ダーニャ,だーにゃ,5,fusion,rectifier,3.3
-lucilla,ルシラー,るしらー,0,,,x.x
+lucilla,ルシラー,るしらー,5,glacio,rectifier,3.4
+Rebecca,レベッカ,れべっか,5,electro,pistols,3.4
+Lucy,ルーシー,るーしー,5,spectro,pistols,3.4
+Yangyang_Xuanling,秧秧・玄翎,やんやんげんれい,5,havoc,sword,3.5
+SuiSui,穂穂,すいすい,0,,,x.x
+lucilla,鎖暝,さめい,0,,,x.x
+Hsin,心,しん,0,,,x.x
+Jingran,景燃,じんらん,0,,,x.x
+Qingxiao,清宵,せいしょう,0,,,x.x

@@ -10,3 +10,5 @@ scar,スカー,すかー
 imperator,インペラトル,いんぺらとる
 leviathan,レビヤタン,れびやたん
 schwarzloch,シュヴァルツロッホ,しゅゔぁるつろっほ
+Liangyu,椋羽,りょうう
+Qiuhong,秋鴻,しゅうこう
