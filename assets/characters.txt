@@ -49,8 +49,8 @@ lucilla,ルシラー,るしらー,5,glacio,rectifier,3.4
 Rebecca,レベッカ,れべっか,5,electro,pistols,3.4
 Lucy,ルーシー,るーしー,5,spectro,pistols,3.4
 Yangyang_Xuanling,秧秧・玄翎,やんやんげんれい,5,havoc,sword,3.5
-SuiSui,穂穂,すいすい,0,,,x.x
+SuiSui,穂穂,すいすい,5,glacio,rectifier,3.5
 lucilla,鎖暝,さめい,0,,,x.x
-Hsin,心,しん,0,,,x.x
-Jingran,景燃,じんらん,0,,,x.x
-Qingxiao,清宵,せいしょう,0,,,x.x
+Hsin,心,しん,0,,,3.7
+Jingran,景燃,じんらん,5,fusion,broadblade,3.6
+Qingxiao,清宵,せいしょう,5,aero,sword,3.6
